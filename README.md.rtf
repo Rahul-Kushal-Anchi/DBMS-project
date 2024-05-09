@@ -1,0 +1,150 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 .AppleSystemUIFontMonospaced-Semibold;\f1\fnil\fcharset0 .AppleSystemUIFontMonospaced-Regular;\f2\fnil\fcharset0 .AppleSystemUIFontMonospaced-Bold;
+}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh7780\viewkind0
+\deftab560
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b\fs24 \cf0 Project Report: Database Management with Python and PostgreSQL\
+\
+1. Setting Up the PostgreSQL Database\
+Step 1.1: Create Database Schema\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f1\b0 \cf0 Procedure:\
+Launch pgAdmin and connect to your PostgreSQL instance.\
+Create three new tables: Product, Depot, and Stock.\
+SQL Commands:sql\uc0\u8232 \u8232 Copy code:\
+\uc0\u8232 CREATE TABLE Product (\
+    prod CHAR(2) PRIMARY KEY,\
+    pname VARCHAR(100),\
+    price DECIMAL\
+);\
+\
+CREATE TABLE Depot (\
+    dep CHAR(2) PRIMARY KEY,\
+    addr VARCHAR(100),\
+    volume INT\
+);\
+\
+CREATE TABLE Stock (\
+    prod CHAR(2),\
+    dep CHAR(2),\
+    quantity INT,\
+    PRIMARY KEY (prod, dep),\
+    FOREIGN KEY (prod) REFERENCES Product(prod) ON DELETE CASCADE,\
+    FOREIGN KEY (dep) REFERENCES Depot(dep) ON DELETE CASCADE\
+);\
+\uc0\u8232 \u8232 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 Step 1.2: Populate Tables with Initial Data\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f1\b0 \cf0 Procedure:\
+Insert initial data into the Product, Depot, and Stock tables using SQL commands.\
+\
+SQL Commands:sql\uc0\u8232 \u8232 Copy code:\u8232 INSERT INTO Product (prod, pname, price) VALUES\
+('p1', 'tape', 2.5),\
+('p2', 'tv', 250),\
+('p3', 'vcr', 80);\
+\
+INSERT INTO Depot (dep, addr, volume) VALUES\
+('d1', 'New York', 9000),\
+('d2', 'Syracuse', 6000),\
+('d5', 'New York', 2000);\
+\
+INSERT INTO Stock (prod, dep, quantity) VALUES\
+('p1', 'd1', 1000),\
+('p1', 'd2', -100),\
+('p1', 'd4', 1200),\
+('p3', 'd1', 3000),\
+('p3', 'd4', 2000),\
+('p2', 'd4', 1500),\
+('p2', 'd1', -400),\
+('p2', 'd2', 2000);\
+\uc0\u8232 \u8232 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 2. Configuring PostgreSQL and Python Connection\
+Step 2.1: Ensure Proper Configuration for Connection\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f1\b0 \cf0 Procedure:\
+Verify PostgreSQL server is running.\
+Check pg_hba.conf for appropriate client authentication settings.\
+Ensure postgresql.conf is set to listen on the correct interfaces.\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 Step 2.2: Establish Connection Using Python\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f1\b0 \cf0 Procedure:\
+Use psycopg2 library to establish a connection to the PostgreSQL database.\
+Ensure error handling for connection issues.\
+Python Code:python\uc0\u8232 \u8232 Copy code\u8232 import psycopg2\
+\
+conn = psycopg2.connect(\
+    dbname="your_database_name",\
+    user="your_username",\
+    password="your_password",\
+    host="localhost"\
+)\
+cursor = conn.cursor()\
+\uc0\u8232 \u8232 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 3. Implementing and Testing Transactions\
+Step 3.1: Define Transaction Functions in Python\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f1\b0 \cf0 Procedure:\
+Write Python functions to handle the deletion of records from Product and Depot tables, along with corresponding entries in the Stock table.\
+Python Code:\
+Provided earlier, including functions delete_product and delete_depot.\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 Step 3.2: Test and Validate\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f1\b0 \cf0 Procedure:\
+Run the Python script to execute the transactions.\
+Manually check the database before and after to ensure the expected changes.\
+Observe and handle any exceptions or errors during the transaction.\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b \cf0 4. ACID Properties and Their Implementation\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f2 \cf0 Atomicity:
+\f1\b0  Guaranteed by wrapping SQL operations within a transaction block in Python. If an error occurs, the transaction is rolled back, ensuring no partial updates.\
+\
+
+\f2\b Consistency:
+\f1\b0  Enforced through foreign key constraints and transaction rules. The database is always left in a consistent state after transactions.\
+\
+
+\f2\b Isolation:
+\f1\b0  Managed by PostgreSQL. Ensures that the transactions are processed in an isolated manner, preventing transactions from interfering with each other.\
+\
+
+\f2\b Durability:
+\f1\b0  Once a transaction has been committed, it is permanently recorded in the database, ensuring the changes persist despite system failures.\
+\
+
+\f2\b Conclusion:
+\f1\b0 \
+This report outlines the detailed steps required to set up, configure, and utilize a PostgreSQL database with Python for managing transactions that adhere to ACID properties. The procedures ensure robust data integrity and error handling, making the system reliable for real-world applications. By following this guide, the project will\
+}
